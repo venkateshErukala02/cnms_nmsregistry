@@ -1,0 +1,12 @@
+services:
+  react-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: registry-ui
+
+    ports:
+      - "8080:80"
+
+    restart: unless-stopped
