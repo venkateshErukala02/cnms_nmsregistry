@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type {RegistrationResponse} from '../../services/nmsregistry.service'
+import type {MigrateStatusResponse, RegistrationResponse} from '../../services/nmsregistry.service'
 import type { ForceRegistry,RegistryCode } from '../../services/nmsregistry.service';
 
 
@@ -9,11 +9,11 @@ export type AppState = {
   registryCodeResponse?: RegistryCode;
   open?:boolean;
   errors: Record<string, string>;
-//   currentUser?: {
-//     buildCode: string;
-//     currentUser: string;
-//     role: string;
-//   };
+  hasDb: boolean;
+  noDb: boolean;
+  showUploadPopup: boolean;
+  selectedFile: File | null;
+  migrationStatus?: MigrateStatusResponse;
 };
 
 export type AppActions = {
@@ -22,11 +22,11 @@ export type AppActions = {
   setRegistryCodeResponse : (data : RegistryCode) => void;
   setOpen : (data : boolean) => void;
   setErrors: (errors: Record<string, string>) => void;
-//   setCurrentUser: (currentUser: {
-//     buildCode: string;
-//     currentUser: string;
-//     role: string;
-//   }) => void;
+  setHasDb: (data: boolean) => void;
+  setNoDb: (data: boolean) => void;
+  setShowUploadPopup: (data: boolean) => void;
+  setSelectedFile: (data: File | null) => void;
+  setMigrationStatus: (data: MigrateStatusResponse) => void;
 };
 
 export const useAppStore = create<AppState & AppActions>((set) => ({
@@ -35,6 +35,12 @@ export const useAppStore = create<AppState & AppActions>((set) => ({
   registryCodeResponse: undefined,
   open: undefined,
   errors: {},
+  hasDb: false,
+  noDb: false,
+  showUploadPopup: false,
+  selectedFile: null,
+  migrationStatus: undefined, 
+  
   setRegistrationResponse: (data) =>
     set({ registrationResponse: data }),
 
@@ -48,4 +54,17 @@ export const useAppStore = create<AppState & AppActions>((set) => ({
     set({ open: data }),
   setErrors: (errors) =>
     set({ errors }),
+  setHasDb: (data) =>
+    set({ hasDb: data }),
+
+  setNoDb: (data) =>
+    set({ noDb: data }),
+
+  setShowUploadPopup: (data) =>
+    set({ showUploadPopup: data }),
+
+  setSelectedFile: (data) =>
+    set({ selectedFile: data }),
+    setMigrationStatus: (data) =>
+    set({ migrationStatus: data }),
 }));

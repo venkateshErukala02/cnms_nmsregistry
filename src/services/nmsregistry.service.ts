@@ -25,6 +25,14 @@ export type ForceRegistryPayload = {
 
 export type RegistryCode = string;
 
+
+export type MigrateStatusResponse = {
+  message: string;
+  running: boolean;
+  status: string;
+}
+
+
 export class ServerService extends BaseService {
   constructor() {
     super();
@@ -51,5 +59,26 @@ export class ServerService extends BaseService {
           );
 
           return response.data as RegistryCode;
+        }
+
+         async CreateRegistryMigration() {
+          const response = await this.post(
+            'http://192.168.66.166:8081/nms/registry/migrate'
+          );
+
+          return response.data;
+        }
+
+         async UploadDatabasefile(payload :any) {
+          const response = await this.post(
+            'http://192.168.66.166:8081/nms/registry/migrate/uploadfile',payload
+          );
+
+          return response.data;
+        }
+
+        async getMigrateStatus() {
+          const response = await this.get('http://192.168.66.166:8081/nms/registry/migrate/status');
+          return response.data as MigrateStatusResponse;
         }
 }
